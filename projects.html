@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Vishal Kumar</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Projects Page Specific Styles */
+        .projects-page {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding-top: 90px;
+        }
+        
+        .projects-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+        }
+        
+        .projects-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .projects-hero p {
+            font-size: 1.2rem;
+            text-align: center;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .project-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .projects-grid-detailed {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .project-card-detailed {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .project-card-detailed:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        }
+        
+        .project-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .project-details {
+            padding: 2rem;
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .project-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .project-tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tech-tag {
+            background: #f0f2ff;
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .project-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .project-link-btn {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .link-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .link-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .link-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .link-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .project-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        
+        /* Modal for project details */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .github-stats {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .projects-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .projects-grid-detailed {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Vishal Kumar</span>
+                <span class="logo-subtitle">Blockchain Developer</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#skills" class="nav-link">Skills</a>
+                </li>
+                <li class="nav-item">
+                    <a href="projects.html" class="nav-link active">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="blog.html" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="cv.html" class="nav-link">CV</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            
+            <!-- Social Media Icons in Header -->
+            <div class="header-social-icons">
+                <a href="https://linkedin.com/in/vishal-kumar" class="header-social-link" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/vishalkumar" class="header-social-link" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://twitter.com/vishalkumar" class="header-social-link" target="_blank" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="mailto:vishal957644@gmail.co" class="header-social-link" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="projects-page">
+        <!-- Hero Section -->
+        <section class="projects-hero">
+            <div class="container">
+                <h1>My Blockchain Projects</h1>
+                <p>Explore my journey in blockchain development through these innovative projects. Each project represents a step forward in understanding and implementing cutting-edge blockchain technologies.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- Project Filters -->
+            <div class="project-filters">
+                <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
+                <button class="filter-btn" onclick="filterProjects('dapp')">DApps</button>
+                <button class="filter-btn" onclick="filterProjects('defi')">DeFi</button>
+                <button class="filter-btn" onclick="filterProjects('nft')">NFT</button>
+                <button class="filter-btn" onclick="filterProjects('web3')">Web3</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid-detailed">
+                <!-- Cryptocurrency Wallet Project -->
+                <div class="project-card-detailed" data-category="web3">
+                    <div class="project-image">
+                        <i class="fas fa-wallet"></i>
+                        <div class="project-category">Web3</div>
+                        <div class="project-status">Completed</div>
+                    </div>
+                    <div class="project-details">
+                        <h3 class="project-title">Multi-Chain Cryptocurrency Wallet</h3>
+                        <p class="project-description">
+                            A comprehensive digital wallet supporting multiple cryptocurrencies with advanced security features, 
+                            real-time price tracking, and seamless transaction management across different blockchain networks.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Web3.js</span>
+                            <span class="tech-tag">Ethereum</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.8/5 Rating</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-download"></i>
+                                <span>1.2k Downloads</span>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link-btn link-primary" onclick="openProjectModal('wallet')">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            <a href="#" class="project-link-btn link-secondary">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Contract DApp -->
+                <div class="project-card-detailed" data-category="dapp">
+                    <div class="project-image">
+                        <i class="fas fa-file-contract"></i>
+                        <div class="project-category">DApp</div>
+                        <div class="project-status">In Progress</div>
+                    </div>
+                    <div class="project-details">
+                        <h3 class="project-title">Smart Contract Management DApp</h3>
+                        <p class="project-description">
+                            A decentralized application for creating, deploying, and managing smart contracts with an intuitive 
+                            interface. Features contract templates, automated testing, and deployment to multiple networks.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="tech-tag">Solidity</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Truffle</span>
+                            <span class="tech-tag">MetaMask</span>
+                            <span class="tech-tag">IPFS</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-code-branch"></i>
+                                <span>12 Commits</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-users"></i>
+                                <span>3 Contributors</span>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link-btn link-primary" onclick="openProjectModal('dapp')">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            <a href="#" class="project-link-btn link-secondary">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NFT Marketplace -->
+                <div class="project-card-detailed" data-category="nft">
+                    <div class="project-image">
+                        <i class="fas fa-image"></i>
+                        <div class="project-category">NFT</div>
+                        <div class="project-status">Completed</div>
+                    </div>
+                    <div class="project-details">
+                        <h3 class="project-title">Decentralized NFT Marketplace</h3>
+                        <p class="project-description">
+                            A full-featured NFT marketplace where users can mint, buy, sell, and auction digital assets. 
+                            Includes royalty management, collection features, and advanced search capabilities.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="tech-tag">Solidity</span>
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">IPFS</span>
+                            <span class="tech-tag">OpenZeppelin</span>
+                            <span class="tech-tag">Ethers.js</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Hot Project</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>50+ NFTs Sold</span>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link-btn link-primary" onclick="openProjectModal('nft')">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            <a href="#" class="project-link-btn link-secondary">
+                                <i class="fas fa-external-link-alt"></i> Visit Site
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DeFi Staking Platform -->
+                <div class="project-card-detailed" data-category="defi">
+                    <div class="project-image">
+                        <i class="fas fa-coins"></i>
+                        <div class="project-category">DeFi</div>
+                        <div class="project-status">Planning</div>
+                    </div>
+                    <div class="project-details">
+                        <h3 class="project-title">DeFi Yield Farming Platform</h3>
+                        <p class="project-description">
+                            A decentralized finance platform offering yield farming, staking rewards, and liquidity provision. 
+                            Features automated compound interest and multi-token reward distribution.
+                        </p>
+                        <div class="project-tech-stack">
+                            <span class="tech-tag">Solidity</span>
+                            <span class="tech-tag">Hardhat</span>
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Chainlink</span>
+                            <span class="tech-tag">Uniswap</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Q1 2025</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-rocket"></i>
+                                <span>Upcoming</span>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link-btn link-primary" onclick="openProjectModal('defi')">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            <a href="#" class="project-link-btn link-secondary">
+                                <i class="fas fa-bell"></i> Get Notified
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GitHub Stats Section -->
+            <div class="github-stats">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">GitHub Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">45+</div>
+                        <div class="stat-label">Repositories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1.2k+</div>
+                        <div class="stat-label">Commits</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">25+</div>
+                        <div class="stat-label">Stars</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeProjectModal()">&times;</button>
+            <div id="modalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function filterProjects(category) {
+            const projects = document.querySelectorAll('.project-card-detailed');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            // Update active filter button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter projects
+            projects.forEach(project => {
+                if (category === 'all' || project.dataset.category === category) {
+                    project.style.display = 'block';
+                    project.style.animation = 'fadeInUp 0.5s ease';
+                } else {
+                    project.style.display = 'none';
+                }
+            });
+        }
+        
+        function openProjectModal(projectType) {
+            const modal = document.getElementById('projectModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            let content = '';
+            
+            switch(projectType) {
+                case 'wallet':
+                    content = `
+                        <h2>Multi-Chain Cryptocurrency Wallet</h2>
+                        <img src="https://via.placeholder.com/500x300/667eea/white?text=Wallet+Screenshot" style="width: 100%; border-radius: 10px; margin: 1rem 0;">
+                        <p><strong>Project Overview:</strong></p>
+                        <p>This comprehensive cryptocurrency wallet supports multiple blockchain networks including Ethereum, Bitcoin, and Binance Smart Chain. Built with security as the top priority, it features hardware wallet integration and advanced encryption.</p>
+                        
+                        <h3>Key Features:</h3>
+                        <ul>
+                            <li>Multi-chain support (ETH, BTC, BSC, Polygon)</li>
+                            <li>Real-time price tracking and portfolio analytics</li>
+                            <li>Hardware wallet integration (Ledger, Trezor)</li>
+                            <li>DApp browser for seamless Web3 interaction</li>
+                            <li>Advanced security with biometric authentication</li>
+                            <li>Cross-platform compatibility (Web, Mobile, Desktop)</li>
+                        </ul>
+                        
+                        <h3>Technical Implementation:</h3>
+                        <p>The wallet is built using React for the frontend with Web3.js for blockchain interactions. The backend utilizes Node.js with Express for API management and secure key storage using industry-standard encryption methods.</p>
+                        
+                        <div style="margin-top: 2rem;">
+                            <a href="#" class="btn btn-primary" style="margin-right: 1rem;">Try Live Demo</a>
+                            <a href="#" class="btn btn-secondary">View on GitHub</a>
+                        </div>
+                    `;
+                    break;
+                case 'dapp':
+                    content = `
+                        <h2>Smart Contract Management DApp</h2>
+                        <img src="https://via.placeholder.com/500x300/764ba2/white?text=DApp+Interface" style="width: 100%; border-radius: 10px; margin: 1rem 0;">
+                        <p><strong>Project Overview:</strong></p>
+                        <p>A revolutionary platform that simplifies smart contract development and deployment. This DApp provides templates, automated testing, and one-click deployment to multiple blockchain networks.</p>
+                        
+                        <h3>Key Features:</h3>
+                        <ul>
+                            <li>Pre-built smart contract templates</li>
+                            <li>Visual contract builder interface</li>
+                            <li>Automated security auditing</li>
+                            <li>Multi-network deployment (Ethereum, Polygon, BSC)</li>
+                            <li>Real-time contract monitoring</li>
+                            <li>Gas optimization recommendations</li>
+                        </ul>
+                        
+                        <h3>Development Progress:</h3>
+                        <p>Currently 75% complete with beta testing underway. The core smart contract functionality is operational, and we're fine-tuning the user interface based on community feedback.</p>
+                        
+                        <div style="margin-top: 2rem;">
+                            <a href="#" class="btn btn-primary" style="margin-right: 1rem;">Join Beta</a>
+                            <a href="#" class="btn btn-secondary">Documentation</a>
+                        </div>
+                    `;
+                    break;
+                case 'nft':
+                    content = `
+                        <h2>Decentralized NFT Marketplace</h2>
+                        <img src="https://via.placeholder.com/500x300/19547b/white?text=NFT+Marketplace" style="width: 100%; border-radius: 10px; margin: 1rem 0;">
+                        <p><strong>Project Overview:</strong></p>
+                        <p>A fully decentralized NFT marketplace where creators can mint, showcase, and sell their digital artworks. The platform emphasizes creator rights with built-in royalty management and low transaction fees.</p>
+                        
+                        <h3>Marketplace Features:</h3>
+                        <ul>
+                            <li>Easy NFT minting with metadata storage on IPFS</li>
+                            <li>Auction and fixed-price sale options</li>
+                            <li>Creator royalty system (2.5-10%)</li>
+                            <li>Collection creation and curation tools</li>
+                            <li>Advanced search and filtering</li>
+                            <li>Social features - follow creators, like artworks</li>
+                        </ul>
+                        
+                        <h3>Success Metrics:</h3>
+                        <p>Since launch, the platform has facilitated over 500 NFT transactions with a total volume of 25 ETH. The platform maintains a 2.5% marketplace fee, one of the lowest in the industry.</p>
+                        
+                        <div style="margin-top: 2rem;">
+                            <a href="#" class="btn btn-primary" style="margin-right: 1rem;">Explore Marketplace</a>
+                            <a href="#" class="btn btn-secondary">Creator Guide</a>
+                        </div>
+                    `;
+                    break;
+                case 'defi':
+                    content = `
+                        <h2>DeFi Yield Farming Platform</h2>
+                        <img src="https://via.placeholder.com/500x300/ffd89b/333333?text=DeFi+Platform" style="width: 100%; border-radius: 10px; margin: 1rem 0;">
+                        <p><strong>Project Overview:</strong></p>
+                        <p>An innovative DeFi platform that maximizes user returns through sophisticated yield farming strategies and automated compound interest. The platform will support multiple tokens and provide various farming pools.</p>
+                        
+                        <h3>Planned Features:</h3>
+                        <ul>
+                            <li>Multiple yield farming pools with competitive APY</li>
+                            <li>Automated compound interest reinvestment</li>
+                            <li>Governance token with voting rights</li>
+                            <li>Liquidity provision rewards</li>
+                            <li>Risk assessment and portfolio balancing</li>
+                            <li>Integration with major DeFi protocols</li>
+                        </ul>
+                        
+                        <h3>Roadmap:</h3>
+                        <p><strong>Q1 2025:</strong> Smart contract development and testing<br>
+                        <strong>Q2 2025:</strong> Frontend development and UI/UX design<br>
+                        <strong>Q3 2025:</strong> Beta testing and security audits<br>
+                        <strong>Q4 2025:</strong> Mainnet launch and token distribution</p>
+                        
+                        <div style="margin-top: 2rem;">
+                            <a href="#" class="btn btn-primary" style="margin-right: 1rem;">Get Early Access</a>
+                            <a href="#" class="btn btn-secondary">Whitepaper</a>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeProjectModal() {
+            const modal = document.getElementById('projectModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target === modal) {
+                closeProjectModal();
+            }
+        }
+        
+        // Add fade-in animation to project cards
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        });
+        
+        document.querySelectorAll('.project-card-detailed').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

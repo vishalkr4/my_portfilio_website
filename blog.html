@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Vishal Kumar</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Blog Page Specific Styles */
+        .blog-page {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding-top: 90px;
+        }
+        
+        .blog-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+        }
+        
+        .blog-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .blog-hero p {
+            font-size: 1.2rem;
+            text-align: center;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .blog-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        
+        .blog-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .blog-post {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .blog-post-image {
+            height: 250px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            position: relative;
+        }
+        
+        .blog-post-content {
+            padding: 2rem;
+        }
+        
+        .blog-post-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .blog-post-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .blog-post-excerpt {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .blog-post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .blog-tag {
+            background: #f0f2ff;
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .read-more-btn {
+            background: #667eea;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .read-more-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .blog-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        
+        .popular-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .popular-post-item {
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .popular-post-item:last-child {
+            border-bottom: none;
+        }
+        
+        .popular-post-image {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .popular-post-info h4 {
+            font-size: 0.9rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        
+        .popular-post-date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .categories-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-item:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .category-count {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .category-item:hover .category-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .newsletter-signup {
+            text-align: center;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .newsletter-input {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .newsletter-btn {
+            background: #667eea;
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        /* Blog post modal */
+        .blog-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .blog-modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        .close-blog-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .blog-modal-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .blog-modal-content h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-modal-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .blog-modal-content h3 {
+            color: #333;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .blog-modal-content ul {
+            color: #666;
+            padding-left: 2rem;
+            line-height: 1.8;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .blog-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .blog-sidebar {
+                position: static;
+            }
+            
+            .blog-modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Vishal Kumar</span>
+                <span class="logo-subtitle">Blockchain Developer</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#skills" class="nav-link">Skills</a>
+                </li>
+                <li class="nav-item">
+                    <a href="projects.html" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="blog.html" class="nav-link active">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="cv.html" class="nav-link">CV</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            
+            <!-- Social Media Icons in Header -->
+            <div class="header-social-icons">
+                <a href="https://linkedin.com/in/vishal-kumar" class="header-social-link" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/vishalkumar" class="header-social-link" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://twitter.com/vishalkumar" class="header-social-link" target="_blank" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="mailto:vishal957644@gmail.co" class="header-social-link" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="blog-page">
+        <!-- Hero Section -->
+        <section class="blog-hero">
+            <div class="container">
+                <h1>Blockchain Insights & Thoughts</h1>
+                <p>Exploring the future of decentralized technology through in-depth articles, tutorials, and industry analysis. Stay updated with the latest trends in blockchain and Web3.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="blog-content">
+                <!-- Main Blog Posts -->
+                <div class="blog-posts">
+                    <!-- Featured Blog Post -->
+                    <article class="blog-post">
+                        <div class="blog-post-image">
+                            <i class="fab fa-ethereum"></i>
+                        </div>
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>December 15, 2024</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>8 min read</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Vishal Kumar</span>
+                                </div>
+                            </div>
+                            <h2 class="blog-post-title">Understanding Smart Contracts: The Future of Digital Agreements</h2>
+                            <p class="blog-post-excerpt">
+                                Smart contracts are revolutionizing how we think about digital agreements and automation. 
+                                In this comprehensive guide, we'll explore what smart contracts are, how they work, and 
+                                their potential impact on various industries from finance to supply chain management.
+                            </p>
+                            <div class="blog-post-tags">
+                                <span class="blog-tag">Smart Contracts</span>
+                                <span class="blog-tag">Ethereum</span>
+                                <span class="blog-tag">Solidity</span>
+                                <span class="blog-tag">DeFi</span>
+                            </div>
+                            <a href="#" class="read-more-btn" onclick="openBlogModal('smart-contracts')">
+                                Read Full Article <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 2 -->
+                    <article class="blog-post">
+                        <div class="blog-post-image">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>December 8, 2024</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>6 min read</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Vishal Kumar</span>
+                                </div>
+                            </div>
+                            <h2 class="blog-post-title">DeFi Explained: Decentralized Finance and Its Growing Ecosystem</h2>
+                            <p class="blog-post-excerpt">
+                                Decentralized Finance (DeFi) is transforming traditional financial services by removing 
+                                intermediaries and creating an open, permissionless financial system. Learn about yield 
+                                farming, liquidity pools, and the protocols driving this revolutionary movement.
+                            </p>
+                            <div class="blog-post-tags">
+                                <span class="blog-tag">DeFi</span>
+                                <span class="blog-tag">Yield Farming</span>
+                                <span class="blog-tag">Liquidity</span>
+                                <span class="blog-tag">Protocols</span>
+                            </div>
+                            <a href="#" class="read-more-btn" onclick="openBlogModal('defi-explained')">
+                                Read Full Article <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 3 -->
+                    <article class="blog-post">
+                        <div class="blog-post-image">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>November 28, 2024</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>10 min read</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Vishal Kumar</span>
+                                </div>
+                            </div>
+                            <h2 class="blog-post-title">NFT Technology Deep Dive: Beyond Digital Art</h2>
+                            <p class="blog-post-excerpt">
+                                Non-Fungible Tokens (NFTs) have gained massive attention, but their potential extends far 
+                                beyond digital art. Explore real-world applications including gaming, identity verification, 
+                                supply chain tracking, and intellectual property management.
+                            </p>
+                            <div class="blog-post-tags">
+                                <span class="blog-tag">NFT</span>
+                                <span class="blog-tag">Digital Art</span>
+                                <span class="blog-tag">Gaming</span>
+                                <span class="blog-tag">Utility</span>
+                            </div>
+                            <a href="#" class="read-more-btn" onclick="openBlogModal('nft-deep-dive')">
+                                Read Full Article <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 4 -->
+                    <article class="blog-post">
+                        <div class="blog-post-image">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>November 20, 2024</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>7 min read</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Vishal Kumar</span>
+                                </div>
+                            </div>
+                            <h2 class="blog-post-title">Blockchain Security Best Practices for Developers</h2>
+                            <p class="blog-post-excerpt">
+                                Security is paramount in blockchain development. This article covers essential security 
+                                practices, common vulnerabilities, and how to protect smart contracts from attacks. 
+                                Learn about reentrancy, overflow/underflow, and access control patterns.
+                            </p>
+                            <div class="blog-post-tags">
+                                <span class="blog-tag">Security</span>
+                                <span class="blog-tag">Smart Contracts</span>
+                                <span class="blog-tag">Vulnerabilities</span>
+                                <span class="blog-tag">Best Practices</span>
+                            </div>
+                            <a href="#" class="read-more-btn" onclick="openBlogModal('blockchain-security')">
+                                Read Full Article <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="blog-sidebar">
+                    <!-- Popular Posts -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Popular Posts</h3>
+                        <div class="popular-posts">
+                            <div class="popular-post-item">
+                                <div class="popular-post-image">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="popular-post-info">
+                                    <h4>Web3 Development Guide for Beginners</h4>
+                                    <div class="popular-post-date">Dec 1, 2024</div>
+                                </div>
+                            </div>
+                            <div class="popular-post-item">
+                                <div class="popular-post-image">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="popular-post-info">
+                                    <h4>Cryptocurrency Market Analysis 2024</h4>
+                                    <div class="popular-post-date">Nov 15, 2024</div>
+                                </div>
+                            </div>
+                            <div class="popular-post-item">
+                                <div class="popular-post-image">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div class="popular-post-info">
+                                    <h4>Building Your First DApp</h4>
+                                    <div class="popular-post-date">Oct 28, 2024</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Categories</h3>
+                        <div class="categories-list">
+                            <div class="category-item">
+                                <span>Blockchain Basics</span>
+                                <span class="category-count">8</span>
+                            </div>
+                            <div class="category-item">
+                                <span>Smart Contracts</span>
+                                <span class="category-count">12</span>
+                            </div>
+                            <div class="category-item">
+                                <span>DeFi</span>
+                                <span class="category-count">6</span>
+                            </div>
+                            <div class="category-item">
+                                <span>NFTs</span>
+                                <span class="category-count">9</span>
+                            </div>
+                            <div class="category-item">
+                                <span>Web3 Development</span>
+                                <span class="category-count">15</span>
+                            </div>
+                            <div class="category-item">
+                                <span>Security</span>
+                                <span class="category-count">5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Newsletter Signup -->
+                    <div class="sidebar-section newsletter-signup">
+                        <h3 class="sidebar-title">Stay Updated</h3>
+                        <p style="color: #666; margin-bottom: 1.5rem;">
+                            Get the latest blockchain insights and Web3 updates delivered to your inbox.
+                        </p>
+                        <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                            <input type="email" placeholder="Enter your email" class="newsletter-input" required>
+                            <button type="submit" class="newsletter-btn">
+                                <i class="fas fa-paper-plane"></i> Subscribe
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Post Modal -->
+    <div id="blogModal" class="blog-modal">
+        <div class="blog-modal-content">
+            <button class="close-blog-modal" onclick="closeBlogModal()">&times;</button>
+            <div id="blogModalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function openBlogModal(articleId) {
+            const modal = document.getElementById('blogModal');
+            const modalContent = document.getElementById('blogModalContent');
+            
+            let content = '';
+            
+            switch(articleId) {
+                case 'smart-contracts':
+                    content = `
+                        <div class="blog-modal-image">
+                            <i class="fab fa-ethereum"></i>
+                        </div>
+                        <h2>Understanding Smart Contracts: The Future of Digital Agreements</h2>
+                        <div style="color: #888; margin-bottom: 2rem;">
+                            Published on December 15, 2024 • 8 min read • By Vishal Kumar
+                        </div>
+                        
+                        <p>Smart contracts represent one of the most revolutionary applications of blockchain technology. These self-executing contracts with the terms of the agreement directly written into code are transforming how we think about digital agreements, automation, and trust in the digital age.</p>
+                        
+                        <h3>What Are Smart Contracts?</h3>
+                        <p>A smart contract is a computer program that automatically executes, controls, or documents legally relevant events according to the terms of a contract or an agreement. The key advantage is that smart contracts eliminate the need for intermediaries, reducing costs and increasing efficiency.</p>
+                        
+                        <h3>How Smart Contracts Work</h3>
+                        <p>Smart contracts operate on blockchain networks, most commonly Ethereum. Here's how they function:</p>
+                        <ul>
+                            <li><strong>Deployment:</strong> The contract code is deployed to the blockchain</li>
+                            <li><strong>Execution:</strong> When predetermined conditions are met, the contract executes automatically</li>
+                            <li><strong>Immutability:</strong> Once deployed, the contract cannot be changed</li>
+                            <li><strong>Transparency:</strong> All transactions are recorded on the blockchain</li>
+                        </ul>
+                        
+                        <h3>Real-World Applications</h3>
+                        <p>Smart contracts are being used across various industries:</p>
+                        <ul>
+                            <li><strong>Finance:</strong> Automated lending, insurance claims, and payment systems</li>
+                            <li><strong>Real Estate:</strong> Property transfers and rental agreements</li>
+                            <li><strong>Supply Chain:</strong> Automated payments upon delivery confirmation</li>
+                            <li><strong>Healthcare:</strong> Secure patient data management and insurance processing</li>
+                        </ul>
+                        
+                        <h3>Benefits and Challenges</h3>
+                        <p>While smart contracts offer numerous benefits such as automation, cost reduction, and increased trust, they also face challenges including code vulnerabilities, legal recognition, and scalability issues.</p>
+                        
+                        <h3>The Future of Smart Contracts</h3>
+                        <p>As blockchain technology continues to evolve, smart contracts will become more sophisticated and widely adopted. Integration with IoT devices, AI, and traditional legal systems will open up new possibilities for automation and digital agreements.</p>
+                        
+                        <p>Understanding smart contracts is crucial for anyone looking to work in the blockchain space. As we move towards a more decentralized future, these programmable agreements will play a central role in how we conduct business and interact digitally.</p>
+                    `;
+                    break;
+                    
+                case 'defi-explained':
+                    content = `
+                        <div class="blog-modal-image">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h2>DeFi Explained: Decentralized Finance and Its Growing Ecosystem</h2>
+                        <div style="color: #888; margin-bottom: 2rem;">
+                            Published on December 8, 2024 • 6 min read • By Vishal Kumar
+                        </div>
+                        
+                        <p>Decentralized Finance, commonly known as DeFi, represents a paradigm shift in how we think about financial services. By leveraging blockchain technology and smart contracts, DeFi creates an open, permissionless financial system that operates without traditional intermediaries.</p>
+                        
+                        <h3>What is DeFi?</h3>
+                        <p>DeFi refers to a collection of financial services built on blockchain networks, primarily Ethereum. These services include lending, borrowing, trading, insurance, and more - all without the need for traditional banks or financial institutions.</p>
+                        
+                        <h3>Key Components of DeFi</h3>
+                        <ul>
+                            <li><strong>Lending Protocols:</strong> Platforms like Aave and Compound allow users to lend and borrow cryptocurrencies</li>
+                            <li><strong>Decentralized Exchanges (DEXs):</strong> Uniswap and SushiSwap enable peer-to-peer trading</li>
+                            <li><strong>Yield Farming:</strong> Earning rewards by providing liquidity to DeFi protocols</li>
+                            <li><strong>Synthetic Assets:</strong> Creating tokenized versions of real-world assets</li>
+                        </ul>
+                        
+                        <h3>How Yield Farming Works</h3>
+                        <p>Yield farming involves providing cryptocurrency to DeFi protocols in exchange for rewards. Users can earn yields through:</p>
+                        <ul>
+                            <li>Providing liquidity to automated market makers (AMMs)</li>
+                            <li>Staking tokens in governance protocols</li>
+                            <li>Participating in liquidity mining programs</li>
+                        </ul>
+                        
+                        <h3>Risks and Considerations</h3>
+                        <p>While DeFi offers attractive opportunities, it's important to understand the risks:</p>
+                        <ul>
+                            <li><strong>Smart Contract Risk:</strong> Bugs in code can lead to loss of funds</li>
+                            <li><strong>Impermanent Loss:</strong> Risk when providing liquidity to AMMs</li>
+                            <li><strong>Regulatory Uncertainty:</strong> Evolving regulatory landscape</li>
+                        </ul>
+                        
+                        <h3>The Future of DeFi</h3>
+                        <p>The DeFi ecosystem continues to evolve rapidly, with innovations in:</p>
+                        <ul>
+                            <li>Cross-chain interoperability</li>
+                            <li>Layer 2 scaling solutions</li>
+                            <li>Integration with traditional finance</li>
+                            <li>Improved user experience and accessibility</li>
+                        </ul>
+                        
+                        <p>DeFi represents the future of finance - open, transparent, and accessible to anyone with an internet connection. As the ecosystem matures, we can expect to see even more innovative financial products and services emerge.</p>
+                    `;
+                    break;
+                    
+                case 'nft-deep-dive':
+                    content = `
+                        <div class="blog-modal-image">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <h2>NFT Technology Deep Dive: Beyond Digital Art</h2>
+                        <div style="color: #888; margin-bottom: 2rem;">
+                            Published on November 28, 2024 • 10 min read • By Vishal Kumar
+                        </div>
+                        
+                        <p>Non-Fungible Tokens (NFTs) have captured global attention, primarily through high-profile digital art sales. However, the underlying technology offers far more utility than collectible images. Let's explore the technical foundations and real-world applications of NFTs.</p>
+                        
+                        <h3>Understanding NFT Technology</h3>
+                        <p>NFTs are unique digital tokens that represent ownership of specific items or content. Built on blockchain networks, they provide:</p>
+                        <ul>
+                            <li><strong>Unique Identification:</strong> Each NFT has a distinct token ID</li>
+                            <li><strong>Provable Ownership:</strong> Blockchain records provide transparent ownership history</li>
+                            <li><strong>Programmable Properties:</strong> Smart contracts can define complex behaviors</li>
+                            <li><strong>Interoperability:</strong> NFTs can work across different platforms and applications</li>
+                        </ul>
+                        
+                        <h3>Beyond Digital Art: Real-World Applications</h3>
+                        
+                        <h4>Gaming and Virtual Worlds</h4>
+                        <p>NFTs are revolutionizing gaming by enabling true ownership of in-game assets. Players can buy, sell, and trade items across different games and platforms.</p>
+                        
+                        <h4>Identity and Credentials</h4>
+                        <p>NFTs can represent digital identities, certificates, and credentials, providing a tamper-proof way to verify achievements and qualifications.</p>
+                        
+                        <h4>Supply Chain and Authentication</h4>
+                        <p>Luxury brands use NFTs to combat counterfeiting by providing authentic certificates of ownership and provenance tracking.</p>
+                        
+                        <h4>Real Estate and Property Rights</h4>
+                        <p>NFTs can represent ownership of physical and virtual real estate, streamlining property transfers and fractional ownership.</p>
+                        
+                        <h3>Technical Implementation</h3>
+                        <p>Most NFTs are built using standards like ERC-721 and ERC-1155 on Ethereum, but other blockchains offer alternatives:</p>
+                        <ul>
+                            <li><strong>Ethereum:</strong> Most established ecosystem with comprehensive tooling</li>
+                            <li><strong>Polygon:</strong> Lower transaction costs and faster confirmation times</li>
+                            <li><strong>Solana:</strong> High performance and low fees</li>
+                            <li><strong>Flow:</strong> Designed specifically for NFTs and digital collectibles</li>
+                        </ul>
+                        
+                        <h3>Creating NFTs: A Developer's Perspective</h3>
+                        <p>Building NFT projects involves several components:</p>
+                        <ul>
+                            <li>Smart contract development using Solidity or other blockchain languages</li>
+                            <li>Metadata storage on IPFS for decentralized content hosting</li>
+                            <li>Frontend interfaces for minting and trading</li>
+                            <li>Integration with marketplaces and wallets</li>
+                        </ul>
+                        
+                        <h3>Challenges and Future Developments</h3>
+                        <p>The NFT space faces several challenges that ongoing development aims to address:</p>
+                        <ul>
+                            <li><strong>Environmental Concerns:</strong> Transition to proof-of-stake and layer 2 solutions</li>
+                            <li><strong>User Experience:</strong> Simplifying wallet management and gas fees</li>
+                            <li><strong>Interoperability:</strong> Cross-chain NFT standards and bridges</li>
+                            <li><strong>Utility and Value:</strong> Moving beyond speculation to real-world utility</li>
+                        </ul>
+                        
+                        <p>NFTs represent a fundamental shift in digital ownership and authenticity. As the technology matures, we'll see increasingly sophisticated applications that go far beyond digital art, creating new economic models and opportunities in the digital economy.</p>
+                    `;
+                    break;
+                    
+                case 'blockchain-security':
+                    content = `
+                        <div class="blog-modal-image">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h2>Blockchain Security Best Practices for Developers</h2>
+                        <div style="color: #888; margin-bottom: 2rem;">
+                            Published on November 20, 2024 • 7 min read • By Vishal Kumar
+                        </div>
+                        
+                        <p>Security is paramount in blockchain development. With millions of dollars at stake, smart contract vulnerabilities can have devastating consequences. This guide covers essential security practices and common pitfalls that every blockchain developer should understand.</p>
+                        
+                        <h3>Common Smart Contract Vulnerabilities</h3>
+                        
+                        <h4>1. Reentrancy Attacks</h4>
+                        <p>Reentrancy occurs when a function can be called recursively before the first invocation is finished. The infamous DAO hack exploited this vulnerability.</p>
+                        <p><strong>Prevention:</strong> Use the checks-effects-interactions pattern and reentrancy guards.</p>
+                        
+                        <h4>2. Integer Overflow and Underflow</h4>
+                        <p>Arithmetic operations in Solidity can overflow or underflow, leading to unexpected behavior.</p>
+                        <p><strong>Prevention:</strong> Use SafeMath libraries or Solidity 0.8+ with built-in overflow checks.</p>
+                        
+                        <h4>3. Access Control Issues</h4>
+                        <p>Improperly implemented access controls can allow unauthorized users to call sensitive functions.</p>
+                        <p><strong>Prevention:</strong> Use OpenZeppelin's access control contracts and follow the principle of least privilege.</p>
+                        
+                        <h3>Security Best Practices</h3>
+                        
+                        <h4>Code Quality and Testing</h4>
+                        <ul>
+                            <li>Write comprehensive unit tests covering edge cases</li>
+                            <li>Use static analysis tools like Slither and MythX</li>
+                            <li>Implement continuous integration with security checks</li>
+                            <li>Follow established coding standards and patterns</li>
+                        </ul>
+                        
+                        <h4>Smart Contract Audits</h4>
+                        <p>Professional security audits are essential before mainnet deployment:</p>
+                        <ul>
+                            <li>Engage reputable audit firms for thorough code review</li>
+                            <li>Conduct multiple rounds of auditing</li>
+                            <li>Address all findings before deployment</li>
+                            <li>Consider bug bounty programs for ongoing security</li>
+                        </ul>
+                        
+                        <h4>Deployment and Monitoring</h4>
+                        <ul>
+                            <li>Use multi-signature wallets for contract ownership</li>
+                            <li>Implement timelock mechanisms for critical functions</li>
+                            <li>Monitor contract activity for unusual patterns</li>
+                            <li>Have incident response plans in place</li>
+                        </ul>
+                        
+                        <h3>Security Tools and Resources</h3>
+                        
+                        <h4>Development Tools</h4>
+                        <ul>
+                            <li><strong>Hardhat/Truffle:</strong> Development frameworks with built-in testing</li>
+                            <li><strong>OpenZeppelin:</strong> Battle-tested smart contract libraries</li>
+                            <li><strong>Chainlink:</strong> Secure oracle solutions for external data</li>
+                        </ul>
+                        
+                        <h4>Security Analysis Tools</h4>
+                        <ul>
+                            <li><strong>Slither:</strong> Static analysis framework</li>
+                            <li><strong>MythX:</strong> Comprehensive security analysis platform</li>
+                            <li><strong>Echidna:</strong> Property-based fuzzing for smart contracts</li>
+                        </ul>
+                        
+                        <h3>Staying Updated with Security Trends</h3>
+                        <p>The blockchain security landscape evolves rapidly. Stay informed through:</p>
+                        <ul>
+                            <li>Following security researchers and audit firms on social media</li>
+                            <li>Reading post-mortem analyses of security incidents</li>
+                            <li>Participating in security-focused blockchain communities</li>
+                            <li>Attending blockchain security conferences and workshops</li>
+                        </ul>
+                        
+                        <h3>Conclusion</h3>
+                        <p>Security should be a primary consideration throughout the entire development lifecycle, not an afterthought. By following these best practices, staying informed about emerging threats, and maintaining a security-first mindset, developers can build more secure and trustworthy blockchain applications.</p>
+                        
+                        <p>Remember: in blockchain development, security is not just about protecting code - it's about protecting users' assets and maintaining trust in the entire ecosystem.</p>
+                    `;
+                    break;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeBlogModal() {
+            const modal = document.getElementById('blogModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function subscribeNewsletter(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            
+            // Simulate newsletter subscription
+            alert(`Thanks for subscribing with ${email}! You'll receive blockchain insights weekly.`);
+            event.target.reset();
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('blogModal');
+            if (event.target === modal) {
+                closeBlogModal();
+            }
+        }
+        
+        // Add fade-in animation to blog posts
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        });
+        
+        document.querySelectorAll('.blog-post').forEach(post => {
+            observer.observe(post);
+        });
+    </script>
+</body>
+</html>
